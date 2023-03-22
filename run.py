@@ -3,7 +3,7 @@ import pandas as pd
 
 class Regressor:
     '''
-    Logisitc Regression
+    Logisitic Regression
     '''
 
     def __init__(self):
@@ -24,6 +24,8 @@ class Regressor:
     
     def predict(self, X):
         self.predict_prob(X)
+        
+        # prediction range
         return np.where(self.p_ > 0.45, 1, 0)
 
 def preprocess(data_path, concat=True):
@@ -35,7 +37,7 @@ def preprocess(data_path, concat=True):
         x_d = np.array(x_d)
         return x_d/np.max(x_d)
 
-    weighting_factor = [1, 10.0, 1.0, 1, 1, 1]
+    weighting_factor = [1, 1.0, 1.0, 1, 1, 1]
 
     # preprocess rule:
     x_sex = data["Sex"] 
@@ -51,10 +53,8 @@ def preprocess(data_path, concat=True):
     x_class *= weighting_factor[1]
     x_age *= weighting_factor[2]
     x_sibsp *= weighting_factor[3]
-    x_parch *= weighting_factor[4]
-    x_fare *= weighting_factor[5]
     
-    X = np.array([x_sex, x_class, x_age, x_sibsp, x_parch, x_fare]).T
+    X = np.array([x_sex, x_class, x_age, x_sibsp]).T
     if concat:
         ones = np.ones((X.shape[0], 1))
         X = np.concatenate((ones, X), axis=1)
